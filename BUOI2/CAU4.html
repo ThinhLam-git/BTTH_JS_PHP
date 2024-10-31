@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Câu 4</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times;
+        }
+
+        table {
+            margin: 0 auto;
+            width: 60%;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+
+<body>
+    <table border="">
+        <thead>
+            <tr>
+                <th colspan="2">Mua vé</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Ngày chiếu</td>
+                <td>
+                    <input type="date" id="date" required>
+                </td>
+            </tr>
+            <tr>
+                <td>Phim</td>
+                <td>
+                    <select id="movieSelect" required>
+                        <option value="">Chọn phim</option>
+                        <option value="Yêu em bất chấp">Yêu em bất chấp</option>
+                        <option value="Tháng năm rực rỡ">Tháng năm rực rỡ</option>
+                        <option value="Và em sẽ đến">Và em sẽ đến</option>
+                        <option value="Chuyện ma lúc 3 giờ sáng">Chuyện ma lúc 3 giờ sáng</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Suất chiếu</td>
+                <td>
+                    <select id="showTimeSelect" required>
+                        <option value="">Chọn suất chiếu</option>
+                        <option value="45000">9h-12h</option>
+                        <option value="45000">13h-16h</option>
+                        <option value="55000">17h-20h</option>
+                        <option value="35000">22h-2h</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Phòng chiếu</td>
+                <td>
+                    <select id="roomSelect" required>
+                        <option value="">Chọn phòng chiếu</option>
+                        <option value="1.0">Đồng</option>
+                        <option value="1.2">Bạc</option>
+                        <option value="1.5">Vàng</option>
+                        <option value="2.0">Kim Cương</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Chọn chỗ ngồi</td>
+                <td>
+                    <select id="seatSelect" multiple required>
+                        <option>Ghế 01</option>
+                        <option>Ghế 02</option>
+                        <option>Ghế 03</option>
+                        <option>Ghế 04</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center; height: 40px;"><button style="width: 20%;height: 30px;"
+                        onclick="purchase()">Mua vé</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        function purchase() {
+            const ticketDate = document.getElementById('date').value;
+            const ticketMovie = document.getElementById('movieSelect').value;
+            const ticketShowTime = document.getElementById('showTimeSelect').value;
+            const ticketRoom = document.getElementById('roomSelect').value;
+            const ticketSeats = Array.from(document.getElementById('seatSelect').selectedOptions).map(option => option.text).join(',');
+
+            //Kiểm tra nếu các giá trị cần thiết chưa chọn
+            if (!ticketDate || !ticketMovie || !ticketRoom || !ticketSeats || !ticketShowTime) {
+                alert('Vui lòng điền đầy đủ thông tin mua vé!');
+                return; 
+            }
+
+            const newWindow = window.open();
+
+            let billContect = `
+                <table style="margin: 0 auto;">
+        <thead>
+            <tr>
+                <th colspan="2">Thông tin vé</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Khách hàng</td>
+                <td>Nguyễn Văn A</td>
+            </tr>
+            <tr>
+                <td>Ngày chiếu</td>
+                <td>
+                    ${ticketDate}
+                </td>
+            </tr>
+            <tr>
+                <td>Phim</td>
+                <td>${ticketMovie}</td>
+            </tr>
+            <tr>
+                <td>Suất chiếu</td>
+                <td>${document.getElementById('showTimeSelect').options[document.getElementById('showTimeSelect').selectedIndex].text}</td>
+            </tr>
+            <tr>
+                <td>Phòng chiếu</td>
+                <td>${document.getElementById('roomSelect').options[document.getElementById('roomSelect').selectedIndex].text}</td> 
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <table style='text-align:center; width:100%;'>
+                        <tr>
+                            <td><h4>Ghế</h4></td>
+                            <td><h4>Giá vé</h4></td>
+                        </tr>
+            `;
+
+            var ticketPrice = ticketShowTime * ticketRoom;
+            var totalAmount = ticketPrice * ticketSeats.split(',').length; //Tổng tiền = tiền vé * số lượng vé
+
+            ticketSeats.split(',').forEach(seat => {
+                billContect += `
+                    <tr>
+                        <td>${seat}</td>
+                        <td>${ticketPrice.toLocaleString('vi-VN')} đ</td>
+                    </tr>
+                `;
+            });
+
+            billContect += `
+                                <tr>
+                                    <td><h4>Tổng cộng</h4></td>
+                                    <td><h4>${totalAmount.toLocaleString('vi-VN')} đ</h4></td>    
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            `;
+            newWindow.document.write(billContect);
+            newWindow.document.close();
+        }
+    </script>
+</body>
+
+</html>

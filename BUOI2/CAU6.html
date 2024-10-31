@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phiếu đăng ký tour du lịch</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #FFDD99;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .container h2 {
+            text-align: center;
+            padding-bottom: 15px;
+            font-size: 30px;
+        }
+
+        .container {
+            width: 500px;
+        }
+
+        .container .co1 {
+            color: blue;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 5px 5px;
+            border: 2px solid black;
+        }
+
+        .container .container-guest {
+            margin-top: 5px;
+            height: 50px;
+            border: 1px solid black;
+            width: 300px;
+        }
+
+        input[name="adults"] {
+            width: 50px;
+        }
+
+        input[name="children"] {
+            width: 50px;
+        }
+
+        #ngl {
+            margin-left: 10px;
+        }
+
+        #sl {
+            transform: translateY(-10px);
+            margin-left: 10px;
+            margin-right: 140px;
+            background-color: #FFDD99;
+        }
+
+        .container .btn {
+            text-align: center;
+        }
+
+        input[type="button"] {
+            width: 200px;
+            height: 30px;
+            border-radius: 6px;
+            background-color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        input[type="button"]:hover {
+            background-color: beige;
+        }
+
+        textarea {
+            height: 100px;
+            width: 100%;
+        }
+
+        input[name="address"] {
+            width: 90%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Phiếu đăng ký tour du lịch</h2>
+        <table border="">
+            <tr>
+                <td class="co1">
+                    Họ và tên khách
+                </td>
+                <td>
+                    <input type="text" id="name" name="name" placeholder="Nguyễn Văn A">
+                </td>
+            </tr>
+            <tr>
+                <td class="co1">
+                    Địa chỉ
+                </td>
+                <td>
+                    <input type="text" id="address" name="address" placeholder="abc, xyz, jqk">
+                </td>
+            </tr>
+            <tr>
+                <td class="co1">Điện thoại</td>
+                <td><input type="text" id="phone" name="phone" placeholder="09xxxxxxxx"></td>
+            </tr>
+            <tr>
+                <td class="co1">Tour</td>
+                <td>
+                    <select name="Tour" id="tourSelect">
+                        <option value="">Chọn tour</option>
+                        <option value="10000000">Hà Nội - Hạ Long - Tuần Châu</option>
+                        <option value="6000000">Hà Nội - Sapa</option>
+                        <option value="3000000">Đà Nẵng - Hội An</option>
+                        <option value="2000000">Buôn Mê Thuột - Kon Tum</option>
+                        <option value="3500000">TP.HCM - Nha Trang</option>
+                        <option value="2500000">TP.HCM - Cần Thơ - Cà Mau</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="container-guest">
+                        <div class="co1" id="sl">Số lượng đoàn khách</div>
+                        <label id="ngl" class="co1" for="adults">Người lớn</label> <input id="adultQuantity" type="text"
+                            name="adults">
+                        <label class="co1" for="children">Trẻ em</label> <input type="text" id="childrenQuantity"
+                            name="children">
+                    </div>
+                </td>
+            </tr>
+            <tr class="note">
+                <td class="co1">Ghi chú</td>
+                <td>
+                    <textarea name="notes" id="notes"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="btn" colspan="2">
+                    <input type="button" onclick="register()" value="Đăng ký">
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        function register() {
+            const name = document.getElementById('name').value;
+            const address = document.getElementById('address').value;
+            const phone = document.getElementById('phone').value.trim();
+            const tour = document.getElementById('tourSelect');
+            const selectedTour = tour.options[tour.selectedIndex].text;
+            const tourPrice = parseInt(tour.value) || 0;
+            const adults = document.getElementById('adultQuantity').value.trim();
+            const children = document.getElementById('childrenQuantity').value.trim();
+            const notes = document.getElementById('notes').value.trim();
+
+            if (!name || !address || !phone || !tourPrice || !adults || !children) {
+                alert("Vui lòng điền đẩy đủ thông tin đăng ký!!!");
+                return;
+            }
+
+            if (isNaN(adults) || isNaN(children) || parseInt(adults) < 0 || parseInt(children) < 0) {
+                alert("Số lượng không hợp lệ!!!");
+                return;
+            }
+
+
+            const numAdults = parseInt(adults);
+            const numChildren = parseInt(children);
+            const childPrice = tourPrice / 2;
+            const adultTotal = numAdults * tourPrice;
+            const childrenTotal = numChildren * childPrice;
+            const total = adultTotal + childrenTotal;
+
+            const newWindow = window.open('', '_blank', 'width=800,height=600');
+
+            if (!newWindow) {
+                alert("Unable to open the new window. Please check pop-up settings.");
+                return;
+            }
+            let windowHTML = `
+                <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Thông tin đăng ký</title>
+                <style>
+                    body{
+                        padding: 20px;
+                    }
+
+                    table{
+                        border-collapse: collapse;
+                        width: 100%;
+                        margin-bottom: 20px;
+                    }
+
+                    td{
+                        padding: 8px;
+                    }
+
+                </style>
+            </head>
+            <body>
+                <h2>Thông tin đăng ký</h2>
+                <table>
+                    <tr>
+                        <td>Ngày đăng ký:</td>
+                        <td>${new Date().toLocaleDateString('vi-VN', {
+                weekday: 'long',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            })}</td>
+                    </tr>
+                    <tr>
+                        <td>Nhân viên:</td>
+                        <td>Họ tên nhân viên</td>
+                    </tr>
+                    <tr>
+                        <td>Họ tên khách</td>
+                        <td>${name}</td>
+                    </tr>
+                    <tr>
+                        <td>Địa chỉ</td>
+                        <td>${address}</td>
+                    </tr>
+                    <tr>
+                        <td>Tour</td>
+                        <td>${selectedTour}</td>
+                    </tr>
+                    <tr>
+                        <td>Ghi chú</td>
+                        <td>${notes || 'Không có ghi chú'}</td>
+                    </tr>
+                </table>
+                <table class="price-table">
+                    <tr>
+                        <td colspan="4">Số lượng khách đoàn</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>SL</td>
+                        <td>Đơn giá</td>
+                        <td>Thành tiền</td>
+                    </tr>
+                    <tr>
+                        <td>Người lớn</td>
+                        <td>${numAdults}</td>
+                        <td>${tourPrice.toLocaleString('vi-VN')}</td>
+                        <td>${adultTotal.toLocaleString('vi-VN')}</td>
+                    </tr>
+                    <tr>
+                        <td>Trẻ em</td>
+                        <td>${numChildren}</td>
+                        <td>${childPrice.toLocaleString('vi-VN')}</td>
+                        <td>${childrenTotal.toLocaleString('vi-VN')}</td>
+                    </tr>
+                    <tr>
+                        <td colspan='2'>Tổng tiền</td>
+                        <td colspan='2'>${total.toLocaleString('vi-VN')} đ</td>
+                    </tr>
+                </table>
+            </body>
+            </html>`;
+            newWindow.document.write(windowHTML);
+            newWindow.document.close();
+        }
+    </script>
+</body>
+
+</html>

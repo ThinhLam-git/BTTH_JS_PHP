@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Câu 5</title>
+</head>
+
+<body>
+    <table id="cartTable" border="">
+        <thead>
+            <tr>
+                <td>Sản phẩm</td>
+                <td>Số lượng</td>
+                <td>Đơn giá</td>
+                <td>Thành tiền</td>
+                <td>Chức năng</td>
+            </tr>
+        </thead>
+        <tbody id="cartBody">
+            <tr>
+                <td><strong>Iphone 11 Pro Max 64GB</strong></td>
+                <td>
+                    <input type="number" class="quantity" value="2">
+                </td>
+                <td>
+                    <input type="text" class="price" value="31000000">
+                </td>
+                <td class="subtotal">62000000</td>
+                <td>
+                    <button class="remove-btn">Xóa</button>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Samsung Galaxy Note 10+</strong></td>
+                <td>
+                    <input type="number" class="quantity" value="1">
+                </td>
+                <td>
+                    <input type="text" class="price" value="16000000">
+                </td>
+                <td class="subtotal">16000000</td>
+                <td>
+                    <button class="remove-btn">Xóa</button>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3"><strong>Tổng tiền</strong></td>
+                <td colspan="2" class="text-right" id="totalAmount">78000000</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var cartBody = document.getElementById('cartBody');
+            var totalAmount = document.getElementById('totalAmount');
+
+            function formatNumber(num) {
+                return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+
+            function parseFormattedNumber(str) {
+                return parseInt(str.replace(/,/g, '')) || 0;
+            }
+
+            function calculateSubtotal(row) {
+                var quantity = parseInt(row.querySelector('.quantity').value) || 0;
+                var price = parseFormattedNumber(row.querySelector('.price').value);
+                var subtotal = quantity * price;
+                row.querySelector('.subtotal').textContent = formatNumber(subtotal);
+                return subtotal;
+            }
+
+            function calculateTotal() {
+                var rows = cartBody.getElementsByTagName('tr');
+                var total = 0;
+                for (var i = 0; i < rows.length; i++) {
+                    total += calculateSubtotal(rows[i]);
+                }
+                totalAmount.textContent = formatNumber(total);
+            }
+
+            cartBody.addEventListener('input', function (e) {
+                if (e.target.classList.contains('quantity') || e.target.classList.contains('price')) {
+                    calculateTotal();
+                }
+            });
+
+            cartBody.addEventListener('click', function (e) {
+                if (e.target.classList.contains('remove-btn')) {
+                    e.target.closest('tr').remove();
+                    calculateTotal();
+                }
+            });
+
+            cartBody.addEventListener('focusout', function (e) {
+                if (e.target.classList.contains('price')) {
+                    var value = parseFormattedNumber(e.target.value);
+                    e.target.value = formatNumber(value);
+                    calculateTotal();
+                }
+            });
+
+            var priceInputs = document.querySelectorAll('.price');
+            for (var i = 0; i < priceInputs.length; i++) {
+                priceInputs[i].value = formatNumber(parseFormattedNumber(priceInputs[i].value));
+            }
+            calculateTotal();
+        });
+    </script>
+</body>
+
+</html>

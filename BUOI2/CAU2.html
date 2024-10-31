@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Câu 2</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin: 20px 0;
+            font-size: 18px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #00BFFF;
+            color: blue;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="menu">
+        <table border="1">
+            <thead>
+                <td colspan="3">
+                    <h1>THỰC ĐƠN</h1>
+                </td>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Thức ăn</td>
+                    <td>Nước uống</td>
+                    <td>Thời điểm</td>
+                </tr>
+                <tr>
+                    <td>
+                        <select id="food" multiple>
+                            <option value="20000">Bún bò</option>
+                            <option value="18000">Hủ tiếu</option>
+                            <option value="17000">Bánh canh</option>
+                            <option value="19000">Phở bò</option>
+                            <option value="15000">Nui</option>
+                            <option value="12000">Bánh mì thịt</option>
+                            <option value="15000">Bánh cuốn</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="beverage" multiple>
+                            <option value="12000">Cà phê đá</option>
+                            <option value="15000">Cà phê sữa</option>
+                            <option value="13000">Chanh dây</option>
+                            <option value="12000">Chanh muối</option>
+                            <option value="14000">Xí muội</option>
+                            <option value="13000">Sữa tươi</option>
+                            <option value="17000">Cam vắt</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="radio" id="day" value="day" name="time" checked>
+                        <label for="day">Ban ngày</label>
+                        <br>
+                        <input type="radio" id="night" value="night" name="time">
+                        <label for="night">Ban đêm</label>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <td colspan="3">
+                    <button type="button" onclick="calculateTotal()">Tính tiền</button>
+                    <button type="reset" onclick="resetHTML()">Reset</button>
+                </td>
+            </tfoot>
+        </table>
+    </form>
+    <div id="result">
+        <!--  -->
+    </div>
+    <script>
+        function calculateTotal() {
+            const selectedFoods = Array.from(document.getElementById('food').selectedOptions);
+            const selectedBeverages = Array.from(document.getElementById('beverage').selectedOptions);
+
+            const isNight = document.querySelector('input[name="time"]:checked').value === "night";
+            let total = 0;
+            let selectedItems = new Set();
+            const incr = isNight ? 1.1 : 1;
+
+            selectedFoods.forEach(food => {
+                let price = parseInt(food.value) * incr;
+                selectedItems.add({ name: food.text, price: Math.round(price) });
+                total += Math.round(price);
+            });
+            selectedBeverages.forEach(beverage => {
+                let price = parseInt(beverage.value) * incr;
+                selectedItems.add({ name: beverage.text, price: Math.round(price) });
+                total += Math.round(price);
+            });
+
+            let tableHTML = `
+                <table border="1">
+                    <tr>
+                        <th>Các món đã dùng</th>
+                        <th>Tiền</th>
+                    </tr>`;
+
+            selectedItems.forEach(item => {
+                tableHTML += `
+                            <tr>
+                                <td>${item.name}</td>
+                                <td>${item.price}</td>
+                            </tr>
+                            `;
+            });
+
+            tableHTML += `
+                    <tr>
+                        <td>Tổng tiền</td>    
+                        <td> ${total} đồng</td>    
+                    </tr>
+                </table>
+            `;
+
+            document.getElementById('result').innerHTML=tableHTML;
+        }
+
+        function resetHTML(){
+            document.getElementById('result').innerHTML='';
+        }
+    </script>
+</body>
+
+</html>

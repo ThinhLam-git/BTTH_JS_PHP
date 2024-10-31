@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phiếu đăng ký tour du lịch</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background-color: #FFDD99;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;   
+        }
+        table{
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .container h2{ 
+            text-align: center;
+            padding-bottom: 15px;
+            font-size: 30px;
+        }
+        .container{
+            width: 500px;
+        }
+        .container .co1{
+            color: blue;
+            font-weight:600;
+        }
+        td{
+            padding: 5px 5px;
+            border: 2px solid black;
+        }
+        .container .container-guest{
+            margin-top: 5px;
+            height: 50px;
+            border: 1px solid black;
+            width: 300px;
+        }
+        input[name="adults"]{
+            width: 50px;
+        }
+        input[name="children"]{
+            width: 50px;
+        }
+        #ngl{
+            margin-left: 10px;
+        }
+        #sl{
+            transform: translateY(-10px);
+            margin-left: 10px;
+            margin-right: 140px;
+            background-color: #FFDD99;
+        }
+        .container .btn{
+            text-align: center;
+        }
+        input[type="button"]{
+            width: 200px;
+            height: 30px;
+            border-radius: 6px;
+            background-color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        input[type="button"]:hover{
+            background-color: beige;
+        }
+        textarea{
+            height: 100px;
+            width: 100%;
+        }
+        input[name="address"]{
+            width: 90%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Phiếu đăng ký tour du lịch</h2>
+        <table border="">
+            <tr>
+                <td class="co1">
+                    Họ và tên khách
+                </td>
+                <td>
+                    <input type="text" name="name" placeholder="Nguyễn Văn A">
+                </td>
+            </tr>
+            <tr>
+                <td class="co1">
+                    Địa chỉ
+                </td>
+                <td>
+                    <input type="text" name="address" placeholder="abc, xyz, jqk">
+                </td>
+            </tr>
+            <tr>
+                <td class="co1">Điện thoại</td>
+                <td><input type="text" name="phone" placeholder="09xxxxxxxx"></td>
+            </tr>
+            <tr>
+                <td class="co1">Tour</td>
+                <td>
+                    <select name="Tour" id="tour">
+                        <option value="Chọn">Chọn tour</option>
+                        <option value="HN-HL-TC">Hà Nội - Hạ Long - Tuần Châu</option>
+                        <option value="HN-Sapa">Hà Nội - Sapa</option>
+                        <option value="DN-HA">Đà Nẵng - Hội An</option>
+                        <option value="BMT-KT">Buôn Mê Thuột - Kon Tum</option>
+                        <option value="SG-NT">TP.HCM - Nha Trang</option>
+                        <option value="SG-CT-CM">TP.HCM - Cần Thơ - Cà Mau</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="container-guest">
+                        <div class="co1" id="sl">Số lượng đoàn khách</div>
+                        <label id="ngl" class="co1" for="adults">Người lớn</label> <input type="text" name="adults">
+                        <label class="co1" for="children">Trẻ em</label> <input type="text" name="children">
+                    </div>
+                </td>
+            </tr>
+            <tr class="note">
+                <td class="co1">Ghi chú</td>
+                <td>
+                    <textarea name="notes" id="notes"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class = "btn" colspan="2">
+                    <input type="button" value="Đăng ký">
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
