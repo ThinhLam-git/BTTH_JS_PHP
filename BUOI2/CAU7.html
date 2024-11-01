@@ -10,6 +10,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
@@ -17,71 +18,175 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: #FFACCA;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffacff 0%, #ff8f 100%);
         }
 
         table {
             background-color: white;
             border-collapse: collapse;
             width: 100%;
+            max-width: 600px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        table td{
+            padding: 12px 15px;
+            border: 1px solid #eee;
+        }
+
+        thead td{
+            background-color: #ff8fb1;
+            color: white;
+            text-align: center;
+        }
+
+        thead h2{
+            font-size: 24px;
+            padding: 10px 0;
         }
 
         span {
             text-decoration-line: underline;
-            color: purple
+            color: #ff4081;
+            font-weight: 500;
+            transition: color 0.3s ease;
         }
 
         span:hover {
             cursor: pointer;
+            color: #FF8FB1;
         }
 
-        input {
-            width: 60%;
+        input[type = 'text'],
+        input[type='email'] {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type = 'text']:focus,
+        input[type='email']:focus{
+            outline: none;
+            border-color: #FF8FB1;
+            box-shadow: 0 0 0 2px rgba(255, 143, 177, 0.2);
+        }
+
+
+        input[type = 'range']{
+            width: 100%;
+            height: 6px;
+            background: #eee;
+            border-radius: 3px;
+            outline: none;
+        }
+
+        input[type = 'range']::-webkit-slider-thumb{
+            width: 16px;
+            height: 16px;
+            background: #FF8FB1;
+            border-radius: 50%;
+            cursor: pointer;
         }
 
         button {
             cursor: pointer;
-            padding: 8px 16px;
+            padding: 10px 20px;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 500;
+            width: 50%;
+            transition: background-color 0.3s ease;
+            margin-left: 130px;
         }
+
+        button:hover{
+            background-color: #ff8fb1   ;
+        }
+        
         .profile-container {
             background: white;
-            padding: 20px;
+            padding: 30px;
             width: 100%;
             max-width: 600px;
             display: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .profile-header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         .profile-img {
             width: 150px;
             height: 150px;
-            margin: 0 auto 15px;
+            margin: 0 auto 20px;
             display: block;
             object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid #FF8FB1;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header h2 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .profile-container p {
+            margin: 15px 0;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .profile-container strong {
+            color: #333;
+            font-size: 18px;
         }
 
         .progress-bar {
             width: 100%;
+            height: 10px;
             background-color: #f0f0f0;
-            border-radius: 4px;
+            border-radius: 5px;
             overflow: hidden;
-            margin: 5px 0 15px;
+            margin: 8px 0 20px;
         }
 
         .progress {
-            height: 20px;
-            background-color: #4CAF50;
-            transition: width 0.3s ease;
+            height: 100%;
+            background: linear-gradient(90deg, #FF8FB1 0%, #FF4081 100%);
+            transition: width 0.5s ease;
         }
 
         .photo-preview {
             max-width: 100px;
             max-height: 100px;
             margin-top: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .skill-row {
+            margin-bottom: 15px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        #skills-table {
+            box-shadow: none;
         }
     </style>
 </head>
@@ -158,12 +263,14 @@
             <h2 id="profile-name"></h2>
         </div>
         <div>
-            <p>  <span id="profile-job"></span></p>
+            <p>💼<span id="profile-job"></span></p>
             <p>🏠<span id="profile-location"></span></p>
             <p>📧<span id="profile-mail"></span></p>
             <p>📞<span id="profile-phone"></span></p>
         </div>
-        <div id="profile-skill"></div>
+        <div id="profile-skill">
+
+        </div>
     </div>
     <script>
         let uploadedImage = null;
@@ -201,6 +308,63 @@
                 }
                 reader.readAsDataURL(file);
             }
+        }
+
+        function register(){
+            //Thu thập dữ liệu từ form 
+            const formData = {
+                name: document.getElementById('name').value,
+                address: document.getElementById('address').value,
+                phone: document.getElementById('phone').value,
+                mail: document.getElementById('mail').value,
+                job: document.getElementById('job').value,
+                photo: uploadedImage,
+                skills: []
+            }
+
+            //Thu thập toàn bộ các skills 
+            const skillRows = document.querySelectorAll('.skill-row');
+            skillRows.forEach(row => {
+                const skillName = row.querySelector('.skill-input').value;
+                const skillRange = row.querySelector('.skill-range').value;
+                if(skillName){
+                    formData.skills.push({
+                        name: skillName,
+                        level: skillRange
+                    })
+                }
+            });
+
+            if(!formData.name || !formData.address || !formData.phone || !formData.mail || !formData.job){
+                alert("Vui lòng điền đầy đủ thông tin!!!");
+            }
+
+            //Sau khi bấm Đăng ký thì sẽ ẩn phần CV form và hiện phần Profile
+            document.getElementById('form-container').style.display = 'none';
+            const profileContainer = document.getElementById('profile-container');
+            profileContainer.style.display = 'block';
+
+            //Cập nhật dữ liệu trong phần Profile
+            document.getElementById('profile-image').src = formData.photo || '/api/placeholder/150/150';
+            document.getElementById('profile-name').textContent = formData.name;
+            document.getElementById('profile-location').textContent = formData.address;
+            document.getElementById('profile-mail').textContent = formData.mail;
+            document.getElementById('profile-phone').textContent = formData.phone;
+            document.getElementById('profile-job').textContent = formData.job;
+
+            //Cập nhật dữ liệu Skills
+            const skillContainer = document.getElementById('profile-skill');
+            skillContainer.innerHTML = `<p>✴️<strong>Kỹ năng</strong></p>`;
+            formData.skills.forEach(skill => {
+                const skillDiv = document.createElement('div');
+                skillDiv.innerHTML=`
+                    <p>${skill.name}</p>
+                    <div class = 'progress-bar'>
+                        <div class = 'progress' style = "width: ${skill.level}%"></div>
+                    </div>
+                    `;
+                skillContainer.appendChild(skillDiv)
+            });
         }
     </script>
 </body>
