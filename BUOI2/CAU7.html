@@ -43,6 +43,46 @@
             cursor: pointer;
             padding: 8px 16px;
         }
+        .profile-container {
+            background: white;
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+            display: none;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 15px;
+            display: block;
+            object-fit: cover;
+        }
+
+        .progress-bar {
+            width: 100%;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 5px 0 15px;
+        }
+
+        .progress {
+            height: 20px;
+            background-color: #4CAF50;
+            transition: width 0.3s ease;
+        }
+
+        .photo-preview {
+            max-width: 100px;
+            max-height: 100px;
+            margin-top: 10px;
+        }
     </style>
 </head>
 
@@ -80,7 +120,10 @@
                 </tr>
                 <tr>
                     <td>Ảnh đại diện</td>
-                    <td><input type="file" id="photo" accept="image/*"></td>
+                    <td>
+                        <input type="file" id="photo" accept="image/*" onchange="previewImage(event)">
+                        <img id="photoPreview" class="photo-preview">
+                    </td>
                 </tr>
                 <tr>
                     <td>Kỹ năng</td>
@@ -113,11 +156,14 @@
         <div class="profile-header">
             <img alt="Profile Photo" id="profile-image" class="profile-img">
             <h2 id="profile-name"></h2>
-            <p id="profile-job"></p>
         </div>
         <div>
-            <p></p>
+            <p>  <span id="profile-job"></span></p>
+            <p>🏠<span id="profile-location"></span></p>
+            <p>📧<span id="profile-mail"></span></p>
+            <p>📞<span id="profile-phone"></span></p>
         </div>
+        <div id="profile-skill"></div>
     </div>
     <script>
         let uploadedImage = null;
@@ -143,8 +189,18 @@
             skillsContainer.appendChild(newSkillRow);
         }
 
-        function register() {
-            
+        function previewImage(event){
+            const file = event.target.files[0];
+            if(file){
+                const reader = new FileReader();
+                reader.onload = function(e){
+                    uploadedImage = e.target.result;
+                    const preview = document.getElementById('photoPreview');
+                    preview.src = uploadedImage;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
         }
     </script>
 </body>
