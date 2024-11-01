@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CÂU 7</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #FFACCA;
+        }
+
+        table {
+            background-color: white;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        span {
+            text-decoration-line: underline;
+            color: purple
+        }
+
+        span:hover {
+            cursor: pointer;
+        }
+
+        input {
+            width: 60%;
+        }
+
+        button {
+            cursor: pointer;
+            padding: 8px 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="form-container">
+
+        <table border="">
+            <thead>
+                <tr>
+                    <td colspan="2">
+                        <h2>Đăng ký CV</h2>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Họ và tên</td>
+                    <td><input type="text" id="name" required placeholder="Nguyễn Văn C"></td>
+                </tr>
+                <tr>
+                    <td>Địa chỉ</td>
+                    <td><input type="text" id="address" required placeholder="TP.HCM"></td>
+                </tr>
+                <tr>
+                    <td>Điện thoại</td>
+                    <td><input type="text" id="phone" required placeholder="090000000"></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td><input type="email" id="mail" required placeholder="ex@gmail.com"></td>
+                </tr>
+                <tr>
+                    <td>Nghề nghiệp</td>
+                    <td><input type="text" id="job" required placeholder="Designer"></td>
+                </tr>
+                <tr>
+                    <td>Ảnh đại diện</td>
+                    <td><input type="file" id="photo" accept="image/*"></td>
+                </tr>
+                <tr>
+                    <td>Kỹ năng</td>
+                    <td>
+                        <div id="skillContainer">
+                            <div class="skill-row">
+                                <table id="skills-table" border="">
+                                    <tr>
+                                        <td>Tên kỹ năng</td>
+                                        <td><input type="text" class="skill-input" placeholder="Node Js"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mức độ</td>
+                                        <td><input type="range" min="0" max="100" step="10" class="skill-range"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <span class="add-skill" onclick="addSkills()">Thêm</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><button type="submit" onclick="register()">Đăng ký</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="profile-container" id="profile-container">
+        <div class="profile-header">
+            <img alt="Profile Photo" id="profile-image" class="profile-img">
+            <h2 id="profile-name"></h2>
+            <p id="profile-job"></p>
+        </div>
+        <div>
+            <p></p>
+        </div>
+    </div>
+    <script>
+        let uploadedImage = null;
+
+        function addSkills() {
+            const skillsContainer = document.getElementById('skillContainer');
+            const newSkillRow = document.createElement('div');
+            newSkillRow.className = 'skill-row';
+            newSkillRow.innerHTML = `
+                
+                        <table id="skills-table" border="">
+                            <tr>
+                                <td>Tên kỹ năng</td>
+                                <td><input type="text" class="skill-input" placeholder="Node Js"></td>
+                            </tr>
+                            <tr>
+                                <td>Mức độ</td>
+                                <td><input type="range" min="0" max="100" step="10" class="skill-range"></td>
+                            </tr>
+                        </table>
+
+            `;
+            skillsContainer.appendChild(newSkillRow);
+        }
+
+        function register() {
+            
+        }
+    </script>
+</body>
+
+</html>
